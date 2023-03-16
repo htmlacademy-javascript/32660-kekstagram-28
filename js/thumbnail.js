@@ -1,3 +1,5 @@
+import {openPictureModal} from './picture-modal.js';
+
 const pictureContainer = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const pictureElements = pictureContainer.querySelectorAll('.picture');
@@ -10,6 +12,8 @@ const createPictureElement = ({ id, url, description, comments, likes }) => {
   pictureItem.querySelector('.picture__comments').textContent = comments.length;
   pictureItem.querySelector('.picture__likes').textContent = likes;
   pictureItem.dataset.id = id;
+
+  pictureItem.addEventListener('click', openPictureModal);
 
   return pictureItem;
 };

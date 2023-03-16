@@ -11,13 +11,8 @@ const commentTemplate = document.querySelector('#comments').content.querySelecto
 const commentsContainer = pictureBox.querySelector('.social__comments');
 const commentCount = pictureBox.querySelector('.social__comment-count');
 const commentsLoader = pictureBox.querySelector('.comments-loader');
+const bigPictureModalCloseElement = document.querySelector('.big-picture__cancel');
 
-const onDocumentKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
-    closePictureModal();
-  }
-};
 
 const createCommentElement = ({avatar, message, name}) => {
   const commentItem = commentTemplate.cloneNode(true);
@@ -42,10 +37,19 @@ const renderPictureModal = (element) => {
   pictureCaption.textContent = element.target.alt;
 };
 
-const openPictureModal = (evt) => {
-  evt.preventDefault();
+const closePictureModal = () => {
+  document.body.classList.remove('modal-open');
+  bigPictureModal.classList.add('hidden');
+  commentCount.classList.remove('hidden');
+  commentsLoader.classList.remove('hidden');
 
+  bigPictureModalCloseElement.removeEventListener('click', closePictureModal);
+  document.removeEventListener('keydown', onDocumentKeydown);
+};
+
+const openPictureModal = (evt) => {
   if (evt.target.closest('.picture')) {
+    evt.preventDefault();
     bigPictureModal.classList.remove('hidden');
     document.body.classList.add('modal-open');
     commentCount.classList.add('hidden');
@@ -55,17 +59,16 @@ const openPictureModal = (evt) => {
     const currentDescription = photos.find((item) => item.id === Number(target.dataset.id));
     renderComments(currentDescription.comments);
 
+    bigPictureModalCloseElement.addEventListener('click', closePictureModal);
     document.addEventListener('keydown', onDocumentKeydown);
   }
 };
 
-const closePictureModal = () => {
-  document.body.classList.remove('modal-open');
-  bigPictureModal.classList.add('hidden');
-  commentCount.classList.remove('hidden');
-  commentsLoader.classList.remove('hidden');
+function onDocumentKeydown (evt) {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    closePictureModal();
+  }
+}
 
-  document.removeEventListener('keydown', onDocumentKeydown);
-};
-
-export {openPictureModal, closePictureModal};
+export {openPictureModal};
