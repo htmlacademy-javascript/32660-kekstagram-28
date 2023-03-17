@@ -4,5 +4,3 @@ import {renderPictures} from './thumbnail.js';
 const photos = createPhotos();
 
 renderPictures(photos);
-
-export {photos};

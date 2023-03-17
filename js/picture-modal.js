@@ -1,12 +1,10 @@
 import {isEscapeKey} from './util.js';
-import {photos} from './main.js';
 
 const bigPictureModal = document.querySelector('.big-picture');
 const pictureBox = bigPictureModal.querySelector('.big-picture__preview');
 const pictureElement = pictureBox.querySelector('img');
 const likeCount = pictureBox.querySelector('.likes-count');
 const pictureCaption = pictureBox.querySelector('.social__caption');
-const commentsCount = pictureBox.querySelector('.comments-count');
 const commentTemplate = document.querySelector('#comments').content.querySelector('.social__comment');
 const commentsContainer = pictureBox.querySelector('.social__comments');
 const commentCount = pictureBox.querySelector('.social__comment-count');
@@ -27,41 +25,30 @@ const renderComments = (item) => {
   commentsContainer.append(...item.map(createCommentElement));
 };
 
-const renderPictureModal = (element) => {
-  const parent = element.target.closest('.picture');
-
-  pictureElement.src = element.target.src;
-  pictureElement.alt = element.target.alt;
-  likeCount.textContent = parent.querySelector('.picture__likes').textContent;
-  commentsCount.textContent = parent.querySelector('.picture__comments').textContent;
-  pictureCaption.textContent = element.target.alt;
-};
-
 const closePictureModal = () => {
   document.body.classList.remove('modal-open');
   bigPictureModal.classList.add('hidden');
-  commentCount.classList.remove('hidden');
-  commentsLoader.classList.remove('hidden');
 
   bigPictureModalCloseElement.removeEventListener('click', closePictureModal);
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
-const openPictureModal = (evt) => {
-  if (evt.target.closest('.picture')) {
-    evt.preventDefault();
-    bigPictureModal.classList.remove('hidden');
-    document.body.classList.add('modal-open');
-    commentCount.classList.add('hidden');
-    commentsLoader.classList.add('hidden');
-    renderPictureModal(evt);
-    const target = evt.target.closest('.picture');
-    const currentDescription = photos.find((item) => item.id === Number(target.dataset.id));
-    renderComments(currentDescription.comments);
+const openBigPictureModal = (url, likes, comments, description) => {
+  pictureElement.src = url;
+  pictureElement.alt = description;
+  likeCount.textContent = likes;
+  pictureCaption.textContent = description;
 
-    bigPictureModalCloseElement.addEventListener('click', closePictureModal);
-    document.addEventListener('keydown', onDocumentKeydown);
-  }
+  renderComments(comments);
+
+  commentCount.classList.add('hidden');
+  commentsLoader.classList.add('hidden');
+
+  bigPictureModal.classList.remove('hidden');
+  document.body.classList.add('modal-open');
+
+  bigPictureModalCloseElement.addEventListener('click', closePictureModal);
+  document.addEventListener('keydown', onDocumentKeydown);
 };
 
 function onDocumentKeydown (evt) {
@@ -71,4 +58,4 @@ function onDocumentKeydown (evt) {
   }
 }
 
-export {openPictureModal};
+export {openBigPictureModal};

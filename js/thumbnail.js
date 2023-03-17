@@ -1,4 +1,4 @@
-import {openPictureModal} from './picture-modal.js';
+import {openBigPictureModal} from './picture-modal.js';
 
 const pictureContainer = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
@@ -13,7 +13,7 @@ const createPictureElement = ({ id, url, description, comments, likes }) => {
   pictureItem.querySelector('.picture__likes').textContent = likes;
   pictureItem.dataset.id = id;
 
-  pictureItem.addEventListener('click', openPictureModal);
+  pictureItem.addEventListener('click', () => openBigPictureModal(url, likes, comments, description));
 
   return pictureItem;
 };
