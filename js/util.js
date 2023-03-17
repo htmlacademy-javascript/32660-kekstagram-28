@@ -27,4 +27,6 @@ const createRandomIdFromRangeGenerator = (min, max) => {
 //функция возвращающая рандомный элемент из массива
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
 
-export {getRandomInteger, createRandomIdFromRangeGenerator, getRandomArrayElement};
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+export {getRandomInteger, createRandomIdFromRangeGenerator, getRandomArrayElement, isEscapeKey};
