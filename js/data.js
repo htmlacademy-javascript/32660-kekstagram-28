@@ -32,7 +32,9 @@ const NAMES = [
 ];
 
 const SIMILAR_PHOTO_COUNT = 25;
-const SIMILAR_COMMENT_COUNT = 5;
+
+const MIN_COMMENT_COUNT = 1;
+const MAX_COMMENT_COUNT = 20;
 
 const MIN_VALUE_PHOTO_ID = 1;
 const MAX_VALUE_PHOTO_ID = 25;
@@ -59,7 +61,7 @@ const createComment = () => ({
   name: getRandomArrayElement(NAMES),
 });
 
-const createComments = () => Array.from({length: SIMILAR_COMMENT_COUNT}, createComment);
+const createComments = () => Array.from({length: getRandomInteger(MIN_COMMENT_COUNT, MAX_COMMENT_COUNT)}, createComment);
 
 //функция конструктор фотографии
 const createPhoto = () => ({
