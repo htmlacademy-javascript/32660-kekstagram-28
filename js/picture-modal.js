@@ -62,16 +62,16 @@ const openBigPictureModal = (url, likes, comments, description) => {
   const commentsInitial = comments.slice(START_INDEX, LIMIT);
   renderComments(commentsInitial);
 
-  commentCountRender.textContent = commentsContainer.querySelectorAll('li').length;
+  commentCountRender.textContent = commentsContainer.querySelectorAll('.social__comment').length;
 
   if(comments.length > 5) {
-    const renderAddcomments = addComments();
+    const renderAddComments = addComments();
 
     commentsLoader.addEventListener('click', () => {
-      renderAddcomments(comments);
-      commentCountRender.textContent = commentsContainer.querySelectorAll('li').length;
+      renderAddComments(comments);
+      commentCountRender.textContent = commentsContainer.querySelectorAll('.social__comment').length;
 
-      if(commentsContainer.querySelectorAll('li').length === comments.length) {
+      if(commentsContainer.querySelectorAll('.social__comment').length === comments.length) {
         commentsLoader.classList.add('hidden');
       }
 
