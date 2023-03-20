@@ -4,7 +4,6 @@ const pictureContainer = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const pictureElements = pictureContainer.querySelectorAll('.picture');
 
-
 const createPictureElement = ({ id, url, description, comments, likes }) => {
   const pictureItem = pictureTemplate.cloneNode(true);
   pictureItem.querySelector('.picture__img').src = url;
@@ -13,7 +12,10 @@ const createPictureElement = ({ id, url, description, comments, likes }) => {
   pictureItem.querySelector('.picture__likes').textContent = likes;
   pictureItem.dataset.id = id;
 
-  pictureItem.addEventListener('click', () => openBigPictureModal(url, likes, comments, description));
+  pictureItem.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    openBigPictureModal(url, likes, comments, description);
+  });
 
   return pictureItem;
 };
