@@ -84,7 +84,6 @@ const openBigPictureModal = (url, likes, comments, description) => {
   bigPictureModal.classList.remove('hidden');
   document.body.classList.add('modal-open');
 
-  bigPictureModalCloseElement.addEventListener('click', closePictureModal);
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
@@ -94,5 +93,7 @@ function onDocumentKeydown (evt) {
     closePictureModal();
   }
 }
+
+bigPictureModalCloseElement.addEventListener('click', closePictureModal);
 
 export {openBigPictureModal};
