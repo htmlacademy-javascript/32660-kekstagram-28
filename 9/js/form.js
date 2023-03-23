@@ -25,18 +25,12 @@ const validateMessage = (value) => value.length <= MESSAGE_LENGTH;
 
 const hasValidateCount = (tags) => tags.length <= HASHTAG_MAX_COUNT;
 
-const hasUniqueTags = (tags) => {
-  const tagsToLowerCase = tags.map((item) => item.toLowerCase());
-  return tagsToLowerCase.length === new Set(tagsToLowerCase).size;
-};
+const hasUniqueTags = (tags) => tags.length === new Set(tags).size;
 
 const validateTags = (value) => {
-  const tags = value.trim().split(' ').filter((tag) => tag.trim().length);
+  const tags = value.toLowerCase().trim().split(/\s+/).filter((tag) => tag.trim());
   return hasValidateCount(tags) && hasUniqueTags(tags) && tags.every(isValidTag);
 };
-
-pristine.addValidator(descriptionField, validateMessage, MESSAGE_ERROR_TEXT);
-pristine.addValidator(hashtagsField, validateTags, TAG_ERROR_TEXT);
 
 const openFormUploadImage = () => {
   formUploadPicture.classList.remove('hidden');
@@ -58,7 +52,10 @@ const closeFormUploadImage = () => {
 function onFormKeydown (evt) {
   if(document.activeElement === descriptionField || document.activeElement === hashtagsField) {
     evt.stopPropagation();
-  } else if (isEscapeKey(evt)) {
+    return;
+  }
+
+  if (isEscapeKey(evt)) {
     evt.preventDefault();
     closeFormUploadImage();
   }
@@ -70,6 +67,9 @@ const onFormSubmit = (evt) => {
     form.submit();
   }
 };
+
+pristine.addValidator(descriptionField, validateMessage, MESSAGE_ERROR_TEXT);
+pristine.addValidator(hashtagsField, validateTags, TAG_ERROR_TEXT);
 
 uploadFile.addEventListener('change', openFormUploadImage);
 closeFormButton.addEventListener('click', closeFormUploadImage);
