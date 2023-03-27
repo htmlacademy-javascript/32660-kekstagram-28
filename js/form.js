@@ -1,4 +1,6 @@
 import {isEscapeKey} from './util.js';
+import {resetScale} from './scale.js';
+import {resetEffects} from './effect.js';
 
 const MESSAGE_LENGTH = 140;
 const MESSAGE_ERROR_TEXT = `Максимальная длина ${MESSAGE_LENGTH} символов`;
@@ -42,6 +44,8 @@ const openFormUploadImage = () => {
 const closeFormUploadImage = () => {
   form.reset();
   pristine.reset();
+  resetScale();
+  resetEffects();
 
   document.body.classList.remove('modal-open');
   formUploadPicture.classList.add('hidden');
