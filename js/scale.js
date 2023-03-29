@@ -8,12 +8,10 @@ const scalePreview = document.querySelector('.img-upload__preview img');
 
 const scaleImage = (value) => {
   scalePreview.style.transform = `scale(${value / 100})`;
-  scaleFildValue.value = `${value }%`;
+  scaleFildValue.value = `${value}%`;
 };
 
-const resetScale = () => {
-  scaleFildValue.value = scaleImage(MAX_SCALE_VALUE);
-};
+const resetScale = () => scaleImage(MAX_SCALE_VALUE);
 
 const onBiggerButtonClick = () => {
   let scaleFildValueNumber = parseInt(scaleFildValue.value, 10);
