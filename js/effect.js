@@ -84,11 +84,7 @@ const updateEffects = () => {
     step: effectChecked.step,
   });
 
-  if(isDefault()){
-    hideSlider();
-  } else {
-    showSlider();
-  }
+  (isDefault() ? hideSlider : showSlider)();
 };
 
 const resetEffects = () => {

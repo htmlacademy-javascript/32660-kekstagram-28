@@ -7,6 +7,10 @@ const MESSAGE_ERROR_TEXT = `Максимальная длина ${MESSAGE_LENGTH
 const HASHTAG_MAX_COUNT = 5;
 const TAG_ERROR_TEXT = 'Неправильно введены хештеги';
 const HASHTAG_RULES = /^#[a-zа-яё0-9]{1,19}$/i;
+const SubmitButtonText = {
+  IDLE: 'Опубликовать',
+  SENDING: 'Опубликовываю...'
+};
 
 const uploadFile = document.querySelector('#upload-file');
 const form = document.querySelector('.img-upload__form');
@@ -14,6 +18,7 @@ const formUploadPicture = document.querySelector('.img-upload__overlay');
 const closeFormButton = formUploadPicture.querySelector('#upload-cancel');
 const hashtagsField = formUploadPicture.querySelector('.text__hashtags');
 const descriptionField = formUploadPicture.querySelector('.text__description');
+const formSubmitButton = form.querySelector('.img-upload__submit');
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
@@ -53,6 +58,16 @@ const closeFormUploadImage = () => {
   document.removeEventListener('keydown', onFormKeydown);
 };
 
+const blockSubmitButton = () => {
+  formSubmitButton.disabled = true;
+  formSubmitButton.textContent = SubmitButtonText.SENDING;
+};
+
+const unblockSubmitButton = () => {
+  formSubmitButton.disabled = false;
+  formSubmitButton.textContent = SubmitButtonText.IDLE;
+};
+
 function onFormKeydown (evt) {
   if(document.activeElement === descriptionField || document.activeElement === hashtagsField) {
     evt.stopPropagation();
@@ -65,11 +80,16 @@ function onFormKeydown (evt) {
   }
 }
 
-const onFormSubmit = (evt) => {
-  evt.preventDefault();
-  if(pristine.validate()) {
-    form.submit();
-  }
+const setUserFormSubmit = (cb) => {
+  form.addEventListener('submit', async (evt) => {
+    evt.preventDefault();
+
+    if(pristine.validate()) {
+      blockSubmitButton();
+      await cb(new FormData(evt.target));
+      unblockSubmitButton();
+    }
+  });
 };
 
 pristine.addValidator(descriptionField, validateMessage, MESSAGE_ERROR_TEXT);
@@ -77,4 +97,5 @@ pristine.addValidator(hashtagsField, validateTags, TAG_ERROR_TEXT);
 
 uploadFile.addEventListener('change', openFormUploadImage);
 closeFormButton.addEventListener('click', closeFormUploadImage);
-form.addEventListener('submit', onFormSubmit);
+
+export {setUserFormSubmit, closeFormUploadImage, onFormKeydown};
