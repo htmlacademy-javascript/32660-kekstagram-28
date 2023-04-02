@@ -7,12 +7,15 @@ const MESSAGE_ERROR_TEXT = `Максимальная длина ${MESSAGE_LENGTH
 const HASHTAG_MAX_COUNT = 5;
 const TAG_ERROR_TEXT = 'Неправильно введены хештеги';
 const HASHTAG_RULES = /^#[a-zа-яё0-9]{1,19}$/i;
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 const SubmitButtonText = {
   IDLE: 'Опубликовать',
   SENDING: 'Опубликовываю...'
 };
 
 const uploadFile = document.querySelector('#upload-file');
+const uploadPreview = document.querySelector('.img-upload__preview img');
+const effectPreviews = document.querySelectorAll('.effects__preview');
 const form = document.querySelector('.img-upload__form');
 const formUploadPicture = document.querySelector('.img-upload__overlay');
 const closeFormButton = formUploadPicture.querySelector('#upload-cancel');
@@ -39,9 +42,24 @@ const validateTags = (value) => {
   return hasValidateCount(tags) && hasUniqueTags(tags) && tags.every(isValidTag);
 };
 
+const uploadPhoto = () => {
+  const file = uploadFile.files[0];
+  const fileName = file.name.toLowerCase();
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+
+  if (matches) {
+    uploadPreview.src = URL.createObjectURL(file);
+    effectPreviews.forEach((preview) => {
+      preview.style.backgroundImage = `url(${URL.createObjectURL(file)})`;
+    });
+  }
+};
+
 const openFormUploadImage = () => {
   formUploadPicture.classList.remove('hidden');
   document.body.classList.add('modal-open');
+
+  uploadPhoto();
 
   document.addEventListener('keydown', onFormKeydown);
 };
