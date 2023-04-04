@@ -18,8 +18,9 @@ const bigPictureModalCloseElement = document.querySelector('.big-picture__cancel
 
 const createCommentElement = ({avatar, message, name}) => {
   const commentItem = commentTemplate.cloneNode(true);
-  commentItem.querySelector('.social__picture').src = avatar;
-  commentItem.querySelector('.social__picture').alt = name;
+  const commentPicture = commentItem.querySelector('.social__picture');
+  commentPicture.src = avatar;
+  commentPicture.alt = name;
   commentItem.querySelector('.social__text').textContent = message;
   return commentItem;
 };
@@ -64,7 +65,7 @@ const openBigPictureModal = (url, likes, comments, description) => {
 
   commentCountRender.textContent = commentsContainer.querySelectorAll('.social__comment').length;
 
-  if(comments.length > 5) {
+  if(comments.length > LIMIT) {
     const renderAddComments = addComments();
 
     commentsLoader.addEventListener('click', () => {

@@ -13,11 +13,17 @@ const createMessage = (element) => {
 
 const closeSuccessMessage = () => {
   document.querySelector('.success').classList.add('hidden');
+
+  document.removeEventListener('click', onDocumentSuccessClick);
+  document.removeEventListener('keydown', onDocumentSuccessKeydown);
 };
 
 const closeErrorMessage = () => {
   document.querySelector('.error').classList.add('hidden');
+
   document.addEventListener('keydown', onFormKeydown);
+  document.removeEventListener('click', onDocumentErorrClick);
+  document.removeEventListener('keydown', onDocumentErorrKeydown);
 };
 
 const showSuccessMessage = () => {
@@ -27,20 +33,9 @@ const showSuccessMessage = () => {
   document.querySelector('.success').classList.remove('hidden');
 
   document.querySelector('.success__button').addEventListener('click', closeSuccessMessage);
-
-  document.addEventListener('click', (evt) => {
-    if(!evt.target.matches('.success__inner')) {
-      closeSuccessMessage();
-    }
-  });
-
-  document.addEventListener('keydown', (evt) => {
-    if (isEscapeKey(evt)) {
-      closeSuccessMessage();
-    }
-  });
+  document.addEventListener('click', onDocumentSuccessClick);
+  document.addEventListener('keydown', onDocumentSuccessKeydown);
 };
-
 
 const showErrorMessage = () => {
   if(!document.querySelector('.error')) {
@@ -49,20 +44,33 @@ const showErrorMessage = () => {
   document.querySelector('.error').classList.remove('hidden');
 
   document.querySelector('.error__button').addEventListener('click', closeErrorMessage);
-
-  document.addEventListener('click', (evt) => {
-    if(!evt.target.matches('.error__inner')) {
-      closeErrorMessage();
-    }
-  });
-
-  document.addEventListener('keydown', (evt) => {
-    if (isEscapeKey(evt)) {
-      closeErrorMessage();
-    }
-  });
-
+  document.addEventListener('click', onDocumentErorrClick);
+  document.addEventListener('keydown', onDocumentErorrKeydown);
   document.removeEventListener('keydown', onFormKeydown);
 };
+
+function onDocumentSuccessClick(evt) {
+  if(!evt.target.matches('.success__inner')) {
+    closeSuccessMessage();
+  }
+}
+
+function onDocumentErorrClick(evt) {
+  if(!evt.target.matches('.error__inner')) {
+    closeErrorMessage();
+  }
+}
+
+function onDocumentSuccessKeydown(evt) {
+  if (isEscapeKey(evt)) {
+    closeSuccessMessage();
+  }
+}
+
+function onDocumentErorrKeydown(evt) {
+  if (isEscapeKey(evt)) {
+    closeErrorMessage();
+  }
+}
 
 export {showSuccessMessage, showErrorMessage};

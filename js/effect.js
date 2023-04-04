@@ -54,6 +54,7 @@ const EFFECTS = [
     unit: '',
   },
 ];
+const DEFAULT_EFFECT = EFFECTS[0];
 
 const previewImage = document.querySelector('.img-upload__preview img');
 const effectsListElements = document.querySelector('.effects');
@@ -61,10 +62,9 @@ const effectSlider = document.querySelector('.img-upload__effect-level');
 const effectSliderElement = effectSlider.querySelector('.effect-level__slider');
 const effectsValue = document.querySelector('.effect-level__value');
 
-const defaultEffect = EFFECTS[0];
-let effectChecked = defaultEffect;
+let effectChecked = DEFAULT_EFFECT;
 
-const isDefault = () => effectChecked === defaultEffect;
+const isDefault = () => effectChecked === DEFAULT_EFFECT;
 
 const showSlider = () => {
   effectSlider.classList.remove('hidden');
@@ -88,7 +88,7 @@ const updateEffects = () => {
 };
 
 const resetEffects = () => {
-  effectChecked = defaultEffect;
+  effectChecked = DEFAULT_EFFECT;
   previewImage.className = (`effects__preview--${effectChecked.name}`);
   updateEffects();
 };
@@ -104,11 +104,11 @@ const onEffectsChange = (evt) => {
 
 noUiSlider.create(effectSliderElement, {
   range: {
-    min: defaultEffect.min,
-    max: defaultEffect.max,
+    min: DEFAULT_EFFECT.min,
+    max: DEFAULT_EFFECT.max,
   },
-  start: defaultEffect.start,
-  step: defaultEffect.step,
+  start: DEFAULT_EFFECT.start,
+  step: DEFAULT_EFFECT.step,
   connect: 'lower',
 });
 
@@ -117,7 +117,7 @@ hideSlider();
 const onSliderUpdate = () => {
   const sliderValue = effectSliderElement.noUiSlider.get();
   if(isDefault()) {
-    previewImage.style.filter = defaultEffect.style;
+    previewImage.style.filter = DEFAULT_EFFECT.style;
   } else {
     previewImage.style.filter = `${effectChecked.style}(${sliderValue}${effectChecked.unit})`;
   }
