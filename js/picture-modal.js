@@ -88,6 +88,8 @@ const openBigPictureModal = (url, likes, comments, description) => {
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
+const onButtonCloseModalClick = closePictureModal;
+
 function onDocumentKeydown (evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
@@ -95,6 +97,6 @@ function onDocumentKeydown (evt) {
   }
 }
 
-bigPictureModalCloseElement.addEventListener('click', closePictureModal);
+bigPictureModalCloseElement.addEventListener('click', onButtonCloseModalClick);
 
 export {openBigPictureModal};

@@ -86,6 +86,9 @@ const unblockSubmitButton = () => {
   formSubmitButton.textContent = SubmitButtonText.IDLE;
 };
 
+const onFormUploadChange = openFormUploadImage;
+const onButtonCloseFormClick = closeFormUploadImage;
+
 function onFormKeydown (evt) {
   if(document.activeElement === descriptionField || document.activeElement === hashtagsField) {
     evt.stopPropagation();
@@ -113,7 +116,7 @@ const setUserFormSubmit = (cb) => {
 pristine.addValidator(descriptionField, validateMessage, MESSAGE_ERROR_TEXT);
 pristine.addValidator(hashtagsField, validateTags, TAG_ERROR_TEXT);
 
-uploadFile.addEventListener('change', openFormUploadImage);
-closeFormButton.addEventListener('click', closeFormUploadImage);
+uploadFile.addEventListener('change', onFormUploadChange);
+closeFormButton.addEventListener('click', onButtonCloseFormClick);
 
 export {setUserFormSubmit, closeFormUploadImage, onFormKeydown};

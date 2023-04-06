@@ -26,13 +26,16 @@ const closeErrorMessage = () => {
   document.removeEventListener('keydown', onDocumentErorrKeydown);
 };
 
+const onSucessButtonClick = closeSuccessMessage;
+const onErorrButtonClick = closeErrorMessage;
+
 const showSuccessMessage = () => {
   if(!document.querySelector('.success')) {
     createMessage(SUCCESS);
   }
   document.querySelector('.success').classList.remove('hidden');
 
-  document.querySelector('.success__button').addEventListener('click', closeSuccessMessage);
+  document.querySelector('.success__button').addEventListener('click', onSucessButtonClick);
   document.addEventListener('click', onDocumentSuccessClick);
   document.addEventListener('keydown', onDocumentSuccessKeydown);
 };
@@ -43,7 +46,7 @@ const showErrorMessage = () => {
   }
   document.querySelector('.error').classList.remove('hidden');
 
-  document.querySelector('.error__button').addEventListener('click', closeErrorMessage);
+  document.querySelector('.error__button').addEventListener('click', onErorrButtonClick);
   document.addEventListener('click', onDocumentErorrClick);
   document.addEventListener('keydown', onDocumentErorrKeydown);
   document.removeEventListener('keydown', onFormKeydown);
